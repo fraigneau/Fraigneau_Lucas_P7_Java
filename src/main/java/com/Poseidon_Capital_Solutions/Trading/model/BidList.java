@@ -1,10 +1,84 @@
 package com.Poseidon_Capital_Solutions.Trading.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
+import lombok.Data;
 
+@Data
 @Entity
-@Table(name = "bidlist")
+@Table(name = "BidList")
 public class BidList {
-    // TODO: Map columns in data table BIDLIST with corresponding java fields
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BidListId", columnDefinition = "tinyint(4)")
+    private Integer bidListId;
+
+    @Column(name = "account", nullable = false, length = 30)
+    private String account;
+
+    @Column(name = "type", nullable = false, length = 30)
+    private String type;
+
+    @Column(name = "bidQuantity")
+    private Double bidQuantity;
+
+    @Column(name = "askQuantity")
+    private Double askQuantity;
+
+    @Column(name = "bid")
+    private Double bid;
+
+    @Column(name = "ask")
+    private Double ask;
+
+    @Column(name = "benchmark", length = 125)
+    private String benchmark;
+
+    @Column(name = "bidListDate")
+    private Timestamp bidListDate;
+
+    @Column(name = "commentary", length = 125)
+    private String commentary;
+
+    @Column(name = "security", length = 125)
+    private String security;
+
+    @Column(name = "status", length = 10)
+    private String status;
+
+    @Column(name = "trader", length = 125)
+    private String trader;
+
+    @Column(name = "book", length = 125)
+    private String book;
+
+    @Column(name = "creationName", length = 125)
+    private String creationName;
+
+    @Column(name = "creationDate")
+    private Timestamp creationDate;
+
+    @Column(name = "revisionName", length = 125)
+    private String revisionName;
+
+    @Column(name = "revisionDate")
+    private Timestamp revisionDate;
+
+    @Column(name = "dealName", length = 125)
+    private String dealName;
+
+    @Column(name = "dealType", length = 125)
+    private String dealType;
+
+    @Column(name = "sourceListId", length = 125)
+    private String sourceListId;
+
+    @Column(name = "side", length = 125)
+    private String side;
 }

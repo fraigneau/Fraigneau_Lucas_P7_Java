@@ -1,10 +1,38 @@
 package com.Poseidon_Capital_Solutions.Trading.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
-@Table(name = "rulename")
+@Table(name = "RuleName")
 public class RuleName {
-    // TODO: Map columns in data table RULENAME with corresponding java fields
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id", columnDefinition = "tinyint(4)")
+    private Integer id;
+
+    @Column(name = "name", length = 125)
+    private String name;
+
+    @Column(name = "description", length = 125)
+    private String description;
+
+    @Column(name = "json", length = 125)
+    private String json;
+
+    @Column(name = "template", length = 512)
+    private String template;
+
+    @Column(name = "sqlStr", length = 125)
+    private String sqlStr;
+
+    @Column(name = "sqlPart", length = 125)
+    private String sqlPart;
 }
