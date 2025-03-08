@@ -1,4 +1,4 @@
-USER `Poseiden_skeleton";
+USE poseiden_trading;
 
 INSERT INTO Users (fullname, username, password, role) 
 VALUES 
