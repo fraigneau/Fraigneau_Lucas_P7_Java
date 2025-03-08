@@ -8,3 +8,7 @@ VALUES
 INSERT INTO bidlist (BidListId, account,  type)
 VALUES 
   (1, "TestAccount", "TestType");
+
+INSERT INTO curvepoint (Id, term)
+VALUES 
+  (1, 1.0);
