@@ -1,5 +1,6 @@
 package com.poseidoncapitalsolutions.trading.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,21 @@ public class BidListService implements GenericService<BidList> {
         return bidLists.stream()
                 .map(bidListMapper::toDto)
                 .toList();
+    }
+
+    public void update(BidListDTO bidListDTO) {
+        bidListRepository.save(merge(bidListDTO));
+    }
+
+    private BidList merge(BidListDTO bidListDTO) {
+        BidList bid = findById(bidListDTO.getId());
+
+        bid.setAccount(bidListDTO.getAccount());
+        bid.setType(bidListDTO.getType());
+        bid.setBidQuantity(bidListDTO.getBidQuantity());
+        bid.setRevisionDate(new Timestamp(System.currentTimeMillis()));
+
+        return bid;
     }
 
 }

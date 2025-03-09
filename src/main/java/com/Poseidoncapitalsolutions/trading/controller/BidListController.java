@@ -70,7 +70,7 @@ public class BidListController {
             model.addAttribute("updatedBidList", updatedBidList);
             return "bidList/update";
         }
-        bidListService.save(bidListMapper.toEntity(updatedBidList));
+        bidListService.update(updatedBidList);
         return "redirect:/bidList/list";
     }
 
