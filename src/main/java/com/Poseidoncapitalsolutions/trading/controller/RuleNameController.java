@@ -53,13 +53,13 @@ public class RuleNameController {
     }
 
     @GetMapping("/ruleName/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+    public String showUpdateForm(@PathVariable("id") int id, Model model) {
         model.addAttribute("updatedRuleName", ruleNameMapper.toDto(ruleNameService.findById(id)));
         return "ruleName/update";
     }
 
     @PostMapping("/ruleName/update/{id}")
-    public String updateRuleName(@PathVariable("id") Integer id,
+    public String updateRuleName(@PathVariable("id") int id,
             @ModelAttribute("updatedRuleName") @Valid RuleNameDTO ruleName,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -71,7 +71,7 @@ public class RuleNameController {
     }
 
     @GetMapping("/ruleName/delete/{id}")
-    public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
+    public String deleteRuleName(@PathVariable("id") int id, Model model) {
         ruleNameService.delete(ruleNameService.findById(id));
         return "redirect:/ruleName/list";
     }

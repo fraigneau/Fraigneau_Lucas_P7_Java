@@ -53,13 +53,13 @@ public class CurveController {
     }
 
     @GetMapping("/curvePoint/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+    public String showUpdateForm(@PathVariable("id") int id, Model model) {
         model.addAttribute("updatedCurvePoint", curvepointMapper.toDto(curvePointService.findById(id)));
         return "curvePoint/update";
     }
 
     @PostMapping("/curvePoint/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id,
+    public String updateBid(@PathVariable("id") int id,
             @ModelAttribute("updatedCurvePoint") @Valid CurvePointDTO updatedCurvePoint,
             BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -71,7 +71,7 @@ public class CurveController {
     }
 
     @GetMapping("/curvePoint/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    public String deleteBid(@PathVariable("id") int id, Model model) {
         curvePointService.delete(curvePointService.findById(id));
         return "redirect:/curvePoint/list";
     }
