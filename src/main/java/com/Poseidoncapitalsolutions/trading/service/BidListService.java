@@ -58,12 +58,10 @@ public class BidListService implements GenericService<BidList> {
 
     private BidList merge(BidListDTO bidListDTO) {
         BidList bid = findById(bidListDTO.getId());
-
         bid.setAccount(bidListDTO.getAccount());
         bid.setType(bidListDTO.getType());
         bid.setBidQuantity(bidListDTO.getBidQuantity());
         bid.setRevisionDate(new Timestamp(System.currentTimeMillis()));
-
         return bid;
     }
 

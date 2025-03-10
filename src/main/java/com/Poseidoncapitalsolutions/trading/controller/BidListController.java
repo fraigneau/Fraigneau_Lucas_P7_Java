@@ -25,6 +25,9 @@ public class BidListController {
     private BidListService bidListService;
     private BidListMapper bidListMapper;
 
+    public BidListController() {
+    }
+
     @Autowired
     public BidListController(BidListService bidListService, BidListMapper bidListMapper) {
         this.bidListService = bidListService;
@@ -39,7 +42,7 @@ public class BidListController {
     }
 
     @GetMapping("/bidList/add")
-    public String addBidForm(BidList bid, Model model) {
+    public String addBidForm(Model model) {
         model.addAttribute("newBidList", new BidListDTO());
         return "bidList/add";
     }
