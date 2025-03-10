@@ -2,7 +2,6 @@ package com.poseidoncapitalsolutions.trading.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poseidoncapitalsolutions.trading.dto.CurvePointDTO;
@@ -16,10 +15,6 @@ public class CurvePointService implements GenericService<CurvePoint> {
     private CurvePointRepository curvePointRepository;
     private CurvepointMapper curvepointMapper;
 
-    public CurvePointService() {
-    }
-
-    @Autowired
     public CurvePointService(CurvePointRepository curvePointRepository, CurvepointMapper curvepointMapper) {
         this.curvePointRepository = curvePointRepository;
         this.curvepointMapper = curvepointMapper;

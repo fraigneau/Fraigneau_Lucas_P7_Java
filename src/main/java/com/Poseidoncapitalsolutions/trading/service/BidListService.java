@@ -3,7 +3,6 @@ package com.poseidoncapitalsolutions.trading.service;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.poseidoncapitalsolutions.trading.dto.BidListDTO;
@@ -17,10 +16,6 @@ public class BidListService implements GenericService<BidList> {
     private BidListRepository bidListRepository;
     private BidListMapper bidListMapper;
 
-    public BidListService() {
-    }
-
-    @Autowired
     public BidListService(BidListRepository bidListRepository, BidListMapper bidListMapper) {
         this.bidListRepository = bidListRepository;
         this.bidListMapper = bidListMapper;

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.poseidoncapitalsolutions.trading.dto.BidListDTO;
 import com.poseidoncapitalsolutions.trading.mapper.BidListMapper;
-import com.poseidoncapitalsolutions.trading.model.BidList;
 import com.poseidoncapitalsolutions.trading.service.BidListService;
 
 import jakarta.validation.Valid;
