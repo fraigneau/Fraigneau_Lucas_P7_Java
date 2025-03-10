@@ -2,7 +2,6 @@ package com.poseidoncapitalsolutions.trading.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.poseidoncapitalsolutions.trading.dto.CurvePointDTO;
 import com.poseidoncapitalsolutions.trading.mapper.CurvepointMapper;
-import com.poseidoncapitalsolutions.trading.model.CurvePoint;
 import com.poseidoncapitalsolutions.trading.service.CurvePointService;
 
 import jakarta.validation.Valid;
@@ -25,10 +23,6 @@ public class CurveController {
     private CurvePointService curvePointService;
     private CurvepointMapper curvepointMapper;
 
-    public CurveController() {
-    }
-
-    @Autowired
     public CurveController(CurvePointService curvePointService, CurvepointMapper curvepointMapper) {
         this.curvePointService = curvePointService;
         this.curvepointMapper = curvepointMapper;

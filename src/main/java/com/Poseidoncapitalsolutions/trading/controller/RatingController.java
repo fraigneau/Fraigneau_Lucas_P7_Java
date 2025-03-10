@@ -2,7 +2,6 @@ package com.poseidoncapitalsolutions.trading.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,10 +23,6 @@ public class RatingController {
     private RatingService ratingService;
     private RatingMapper ratingMapper;
 
-    public RatingController() {
-    }
-
-    @Autowired
     public RatingController(RatingService ratingService, RatingMapper ratingMapper) {
         this.ratingService = ratingService;
         this.ratingMapper = ratingMapper;
