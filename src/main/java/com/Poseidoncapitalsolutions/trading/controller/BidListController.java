@@ -54,7 +54,7 @@ public class BidListController {
             return "bidList/add";
         }
 
-        bidListService.save(bidListMapper.toEntity(bid));
+        bidListService.add(bidListMapper.toEntity(bid));
         return "redirect:/bidList/list";
     }
 

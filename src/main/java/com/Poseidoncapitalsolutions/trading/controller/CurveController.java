@@ -48,7 +48,7 @@ public class CurveController {
             model.addAttribute("newCurvePoint", curvePoint);
             return "curvePoint/add";
         }
-        curvePointService.save(curvepointMapper.toEntity(curvePoint));
+        curvePointService.add(curvepointMapper.toEntity(curvePoint));
         return "redirect:/curvePoint/list";
     }
 

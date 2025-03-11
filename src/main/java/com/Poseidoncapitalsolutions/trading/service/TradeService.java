@@ -1,5 +1,6 @@
 package com.poseidoncapitalsolutions.trading.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -55,7 +56,13 @@ public class TradeService implements GenericService<Trade> {
         trade.setAccount(tradeDTO.getAccount());
         trade.setType(tradeDTO.getType());
         trade.setBuyQuantity(tradeDTO.getBuyQuantity());
+        trade.setRevisionDate(new Timestamp(System.currentTimeMillis()));
         return trade;
+    }
+
+    public void add(Trade trade) {
+        trade.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        tradeRepository.save(trade);
     }
 
 }

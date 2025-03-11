@@ -1,5 +1,6 @@
 package com.poseidoncapitalsolutions.trading.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -57,4 +58,8 @@ public class CurvePointService implements GenericService<CurvePoint> {
         return curve;
     }
 
+    public void add(CurvePoint curvePoint) {
+        curvePoint.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        curvePointRepository.save(curvePoint);
+    }
 }

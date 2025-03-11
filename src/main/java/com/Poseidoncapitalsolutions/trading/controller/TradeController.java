@@ -48,7 +48,7 @@ public class TradeController {
             return "trade/add";
         }
 
-        tradeService.save(tradeMapper.toEntity(trade));
+        tradeService.add(tradeMapper.toEntity(trade));
         return "redirect:/trade/list";
     }
 

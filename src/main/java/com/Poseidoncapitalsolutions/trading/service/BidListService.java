@@ -60,4 +60,9 @@ public class BidListService implements GenericService<BidList> {
         return bid;
     }
 
+    public void add(BidList object) {
+        object.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        bidListRepository.save(object);
+    }
+
 }
