@@ -1,55 +1,77 @@
 package com.poseidoncapitalsolutions.trading.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.poseidoncapitalsolutions.trading.model.Rating;
+import com.poseidoncapitalsolutions.trading.dto.RatingDTO;
+import com.poseidoncapitalsolutions.trading.mapper.RatingMapper;
+import com.poseidoncapitalsolutions.trading.service.RatingService;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class RatingController {
-    // TODO: Inject Rating service
+
+    private RatingService ratingService;
+    private RatingMapper ratingMapper;
+
+    public RatingController(RatingService ratingService, RatingMapper ratingMapper) {
+        this.ratingService = ratingService;
+        this.ratingMapper = ratingMapper;
+    }
 
     @RequestMapping("/rating/list")
     public String home(Model model) {
-        // TODO: find all Rating, add to model
+        List<RatingDTO> lists = ratingService.getListResponseDTO(ratingService.findAll());
+        model.addAttribute("ratings", lists);
         return "rating/list";
     }
 
     @GetMapping("/rating/add")
-    public String addRatingForm(Rating rating) {
+    public String addRatingForm(Model model) {
+        model.addAttribute("newRating", new RatingDTO());
         return "rating/add";
     }
 
     @PostMapping("/rating/validate")
-    public String validate(@Valid Rating rating, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Rating list
-        return "rating/add";
+    public String validate(@ModelAttribute("newRating") @Valid RatingDTO rating, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("newRating", rating);
+            return "rating/add";
+        }
+        ratingService.save(ratingMapper.toEntity(rating));
+        return "redirect:/rating/list";
     }
 
     @GetMapping("/rating/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Rating by Id and to model then show to the form
+    public String showUpdateForm(@PathVariable("id") int id, Model model) {
+        model.addAttribute("updatedRating", ratingMapper.toDto(ratingService.findById(id)));
         return "rating/update";
     }
 
     @PostMapping("/rating/update/{id}")
-    public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
+    public String updateRating(@PathVariable("id") int id,
+            @ModelAttribute("updatedRating") @Valid RatingDTO rating,
             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Rating and
-        // return Rating list
+        if (result.hasErrors()) {
+            model.addAttribute("updatedRating", rating);
+            return "rating/update";
+        }
+        ratingService.update(rating);
         return "redirect:/rating/list";
     }
 
     @GetMapping("/rating/delete/{id}")
-    public String deleteRating(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Rating by Id and delete the Rating, return to Rating list
+    public String deleteRating(@PathVariable("id") int id, Model model) {
+        ratingService.delete(ratingService.findById(id));
         return "redirect:/rating/list";
     }
 }
