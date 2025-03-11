@@ -6,7 +6,7 @@ import org.mapstruct.Mapping;
 import com.poseidoncapitalsolutions.trading.dto.UserDTO;
 import com.poseidoncapitalsolutions.trading.model.User;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     @Mapping(target = "password", ignore = true)
