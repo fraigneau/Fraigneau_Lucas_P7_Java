@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import com.poseidoncapitalsolutions.trading.dto.RuleNameDTO;
 import com.poseidoncapitalsolutions.trading.model.RuleName;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface RuleNameMapper {
 
     public RuleNameDTO toDto(RuleName bidLists);
