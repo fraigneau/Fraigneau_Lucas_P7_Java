@@ -3,67 +3,83 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Add New Rating - Poseidon Capital Solutions</title>
 	<link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 
 <body>
-	<div class="container">
-
-		<div class="row">
-			<h2>Add New Rating</h2>
+	<div class="container mt-4">
+		<!-- Navigation and Header Section -->
+		<div class="card mb-4 shadow-sm">
+			<div class="card-header bg-primary text-white">
+				<h3 class="mb-0">Poseidon Trading Platform</h3>
+			</div>
 		</div>
 
-		<div class="row">
-			<form action="#" th:action="@{/rating/validate}" th:object="${newRating}" method="post"
-				class="form-horizontal" style="width: 100%">
-				<div class="form-group">
-					<label for="moodysRating" class="col-sm-2 control-label">MoodysRating</label>
-					<div class="col-sm-10">
-						<input type="number" th:field="*{moodysRating}" id="moodysRating" placeholder="MoodysRating"
-							class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('moodysRating')}" th:errors="*{moodysRating}">
-						</p>
+		<!-- Content Section -->
+		<div class="card shadow-sm">
+			<div class="card-header bg-light">
+				<h4 class="mb-0">Add New Rating</h4>
+			</div>
+			<div class="card-body">
+				<form action="#" th:action="@{/rating/validate}" th:object="${newRating}" method="post">
+					<div class="form-group row">
+						<label for="moodysRating" class="col-sm-2 col-form-label">Moody's Rating</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{moodysRating}" id="moodysRating"
+								placeholder="Enter Moody's rating" class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('moodysRating')}"
+								th:errors="*{moodysRating}"></p>
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label for="sandPRating" class="col-sm-2 control-label">SandPRating</label>
-					<div class="col-sm-10">
-						<input type="number" th:field="*{sandPRating}" id="sandPRating" placeholder="SandPRating"
-							class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('sandPRating')}" th:errors="*{sandPRating}">
-						</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="fitchRating" class="col-sm-2 control-label">FitchRating</label>
-					<div class="col-sm-10">
-						<input type="number" th:field="*{fitchRating}" id="fitchRating" placeholder="FitchRating"
-							class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('fitchRating')}" th:errors="*{fitchRating}">
-						</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="order" class="col-sm-2 control-label">Order</label>
-					<div class="col-sm-10">
-						<input type="text" th:field="*{orderNumber}" id="orderNumber" placeholder="orderNumber"
-							class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('orderNumber')}" th:errors="*{orderNumber}">
-						</p>
-					</div>
-				</div>
 
-
-				<div class="form-group">
-					<div class="col-sm-12">
-						<a class="btn btn-danger btn-sm" href="/rating/list">Cancel</a>
-						<input class="btn btn-primary btn-sm" type="submit" value="Add Rating">
+					<div class="form-group row">
+						<label for="sandPRating" class="col-sm-2 col-form-label">S&P Rating</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{sandPRating}" id="sandPRating" placeholder="Enter S&P rating"
+								class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('sandPRating')}"
+								th:errors="*{sandPRating}"></p>
+						</div>
 					</div>
-				</div>
-			</form>
+
+					<div class="form-group row">
+						<label for="fitchRating" class="col-sm-2 col-form-label">Fitch Rating</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{fitchRating}" id="fitchRating"
+								placeholder="Enter Fitch rating" class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('fitchRating')}"
+								th:errors="*{fitchRating}"></p>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="orderNumber" class="col-sm-2 col-form-label">Order Number</label>
+						<div class="col-sm-6">
+							<input type="number" th:field="*{orderNumber}" id="orderNumber"
+								placeholder="Enter order number" class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('orderNumber')}"
+								th:errors="*{orderNumber}"></p>
+						</div>
+					</div>
+
+					<div class="form-group row mt-4">
+						<div class="col-sm-10 offset-sm-2">
+							<a class="btn btn-secondary mr-2" href="/rating/list">
+								Cancel
+							</a>
+							<button type="submit" class="btn btn-primary">
+								Save Rating
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="card-footer text-muted text-center">
+				<small>© 2025 Poseidon Capital Solutions - Trading Platform</small>
+			</div>
 		</div>
-
 	</div>
 </body>
 

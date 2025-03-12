@@ -3,44 +3,65 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Update Curve Point - Poseidon Capital Solutions</title>
 	<link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 
 <body>
-	<div class="container">
-		<div class="row">
-			<h2>Update CurvePoint</h2>
+	<div class="container mt-4">
+		<!-- Navigation and Header Section -->
+		<div class="card mb-4 shadow-sm">
+			<div class="card-header bg-primary text-white">
+				<h3 class="mb-0">Poseidon Curve Point Management</h3>
+			</div>
 		</div>
 
-		<div class="row">
-			<form action="#" th:action="@{/curvePoint/update/{id}(id=${updatedCurvePoint.id})}"
-				th:object="${updatedCurvePoint}" method="post" class="form-horizontal" style="width: 100%">
-				<div class="form-group">
-					<label for="term" class="col-sm-2 control-label">Term</label>
-					<div class="col-sm-10">
-						<input type="text" th:field="*{term}" id="term" placeholder="Term" class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('term')}" th:errors="*{term}"></p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="value" class="col-sm-2 control-label">Value</label>
-					<div class="col-sm-10">
-						<input type="number" th:field="*{value}" id="value" placeholder="Value" class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></p>
-					</div>
-				</div>
+		<!-- Content Section -->
+		<div class="card shadow-sm">
+			<div class="card-header bg-light">
+				<h4 class="mb-0">Update Curve Point</h4>
+			</div>
+			<div class="card-body">
+				<form action="#" th:action="@{/curvePoint/update/{id}(id=${updatedCurvePoint.id})}"
+					th:object="${updatedCurvePoint}" method="post">
+					<input type="hidden" th:field="*{id}">
 
-				<div class="form-group">
-					<div class="col-sm-12">
-						<input type="hidden" th:field="*{id}">
-						<a class="btn btn-danger btn-sm" href="/curvePoint/list">Cancel</a>
-						<input class="btn btn-primary btn-sm" type="submit" value="Update Curve Point">
+					<div class="form-group row">
+						<label for="term" class="col-sm-2 col-form-label">Term</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{term}" id="term" placeholder="Enter term"
+								class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('term')}" th:errors="*{term}">
+							</p>
+						</div>
 					</div>
-				</div>
-			</form>
+
+					<div class="form-group row">
+						<label for="value" class="col-sm-2 col-form-label">Value</label>
+						<div class="col-sm-6">
+							<input type="number" step="0.01" th:field="*{value}" id="value" placeholder="Enter value"
+								class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></p>
+						</div>
+					</div>
+
+					<div class="form-group row mt-4">
+						<div class="col-sm-10 offset-sm-2">
+							<a class="btn btn-secondary mr-2" href="/curvePoint/list">
+								Cancel
+							</a>
+							<button type="submit" class="btn btn-primary">
+								Update Curve Point
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="card-footer text-muted text-center">
+				<small>© 2025 Poseidon Capital Solutions - Curve Point Management</small>
+			</div>
 		</div>
-
 	</div>
 </body>
 
