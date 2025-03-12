@@ -23,7 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/login", "/error/**", "/css/**").permitAll()
+                        .requestMatchers("/login", "/error/**", "/css/**").permitAll()
                         .requestMatchers("/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
@@ -31,12 +31,12 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login-process")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/user/list", true)
-                        .failureUrl("/login?error=true")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/app-logout")
-                        .logoutSuccessUrl("/login?logout=true")
+                        .logoutSuccessUrl("/login?logout")
                         .clearAuthentication(true)
                         .invalidateHttpSession(true)
                         .permitAll());

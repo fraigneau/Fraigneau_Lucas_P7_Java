@@ -3,54 +3,76 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Update Trade - Poseidon Capital Solutions</title>
 	<link rel="stylesheet" href="../../css/bootstrap.min.css">
 </head>
 
 <body>
-	<div class="container">
-		<div class="row">
-			<h2>Update Trade</h2>
+	<div class="container mt-4">
+		<!-- Navigation and Header Section -->
+		<div class="card mb-4 shadow-sm">
+			<div class="card-header bg-primary text-white">
+				<h3 class="mb-0">Poseidon Trade Management</h3>
+			</div>
 		</div>
 
-		<div class="row">
-			<form action="#" th:action="@{/trade/update/{id}(id=${updatedTrade.tradeId})}" th:object="${updatedTrade}"
-				method="post" class="form-horizontal" style="width: 100%">
-				<div class="form-group">
-					<label for="account" class="col-sm-2 control-label">Account</label>
-					<div class="col-sm-10">
-						<input type="text" th:field="*{account}" id="account" placeholder="Account" class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('account')}" th:errors="*{account}"></p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="type" class="col-sm-2 control-label">Type</label>
-					<div class="col-sm-10">
-						<input type="text" th:field="*{type}" id="type" placeholder="Type" class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="buyQuantity" class="col-sm-2 control-label">Buy Quantity</label>
-					<div class="col-sm-10">
-						<input type="number" th:field="*{buyQuantity}" id="buyQuantity" placeholder="Buy Quantity"
-							class="col-4">
-						<p class="text-danger" th:if="${#fields.hasErrors('buyQuantity')}" th:errors="*{buyQuantity}">
-						</p>
-					</div>
-				</div>
+		<!-- Content Section -->
+		<div class="card shadow-sm">
+			<div class="card-header bg-light">
+				<h4 class="mb-0">Update Trade</h4>
+			</div>
+			<div class="card-body">
+				<form action="#" th:action="@{/trade/update/{id}(id=${updatedTrade.Id})}" th:object="${updatedTrade}"
+					method="post">
+					<input type="hidden" th:field="*{Id}">
 
-
-				<div class="form-group">
-					<div class="col-sm-12">
-						<input type="hidden" th:field="*{id}">
-						<a class="btn btn-danger btn-sm" href="/trade/list">Cancel</a>
-						<input class="btn btn-primary btn-sm" type="submit" value="Update Trade">
+					<div class="form-group row">
+						<label for="account" class="col-sm-2 col-form-label">Account</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{account}" id="account" placeholder="Enter Account"
+								class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('account')}" th:errors="*{account}">
+							</p>
+						</div>
 					</div>
-				</div>
-			</form>
+
+					<div class="form-group row">
+						<label for="type" class="col-sm-2 col-form-label">Type</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{type}" id="type" placeholder="Enter Trade Type"
+								class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></p>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="buyQuantity" class="col-sm-2 col-form-label">Buy Quantity</label>
+						<div class="col-sm-6">
+							<input type="number" step="0.01" th:field="*{buyQuantity}" id="buyQuantity"
+								placeholder="Enter Buy Quantity" class="form-control">
+							<p class="text-danger mt-1" th:if="${#fields.hasErrors('buyQuantity')}"
+								th:errors="*{buyQuantity}">
+							</p>
+						</div>
+					</div>
+
+					<div class="form-group row mt-4">
+						<div class="col-sm-10 offset-sm-2">
+							<a class="btn btn-secondary mr-2" href="/trade/list">
+								Cancel
+							</a>
+							<button type="submit" class="btn btn-primary">
+								Update Trade
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="card-footer text-muted text-center">
+				<small>© 2025 Poseidon Capital Solutions - Trade Management</small>
+			</div>
 		</div>
-
 	</div>
 </body>
 
