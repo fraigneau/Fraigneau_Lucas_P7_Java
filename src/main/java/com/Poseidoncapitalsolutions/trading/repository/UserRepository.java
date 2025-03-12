@@ -8,5 +8,5 @@ import com.poseidoncapitalsolutions.trading.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
-
+    User findByUsername(String username);
 }
