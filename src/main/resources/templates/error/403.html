@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+      <title>Spring Boot</title>
+      <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+</head>
+
+<body>
+      <h3>Access Denied Exception</h3>
+      <div>
+            <b th:inline="text" class="user" th:text="${#authentication.principal.username}"></b>
+            <form th:action="@{/app-logout}" method="POST">
+                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                  <input type="submit" value="Logout" />
+            </form>
+      </div>
+      <p class="error" th:text="${errorMsg}">Error</p>
+</body>
+
+</html>
