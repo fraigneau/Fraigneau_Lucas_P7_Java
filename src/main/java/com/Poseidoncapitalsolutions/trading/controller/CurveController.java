@@ -21,6 +21,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controller responsible for handling operations related to CurvePoints.
+ * Provides endpoints for viewing, adding, updating, and deleting curve points.
+ */
 @Controller
 @Tag(name = "Curve Controller", description = "API for curve point management")
 public class CurveController {
@@ -28,11 +32,23 @@ public class CurveController {
     private CurvePointService curvePointService;
     private CurvepointMapper curvepointMapper;
 
+    /**
+     * Constructs a CurveController with the given service and mapper.
+     * 
+     * @param curvePointService The service to interact with CurvePoint data.
+     * @param curvepointMapper  The mapper to convert CurvePoint entities to DTOs.
+     */
     public CurveController(CurvePointService curvePointService, CurvepointMapper curvepointMapper) {
         this.curvePointService = curvePointService;
         this.curvepointMapper = curvepointMapper;
     }
 
+    /**
+     * Displays a list of all curve points.
+     * 
+     * @param model The model to add the curve points to.
+     * @return The view name for the curve points page.
+     */
     @Operation(summary = "Get all curve points", description = "Returns a page with the list of all curve points")
     @GetMapping("/curvePoint/list")
     public String home(Model model) {
@@ -41,6 +57,12 @@ public class CurveController {
         return "curvePoint/list";
     }
 
+    /**
+     * Displays the form to add a new curve point.
+     * 
+     * @param model The model to add a new empty CurvePointDTO to.
+     * @return The view name for the curve point add form.
+     */
     @Operation(summary = "Display curve point add form", description = "Returns a page with the form to add a new curve point")
     @GetMapping("/curvePoint/add")
     public String addBidForm(Model model) {
@@ -48,6 +70,15 @@ public class CurveController {
         return "curvePoint/add";
     }
 
+    /**
+     * Validates and adds a new curve point.
+     * 
+     * @param curvePoint The new CurvePointDTO to be added.
+     * @param result     The result of validating the curve point.
+     * @param model      The model to pass attributes to the view.
+     * @return A redirect to the curve point list page if successful, or the form
+     *         page if validation fails.
+     */
     @Operation(summary = "Validate and add a new curve point", description = "Adds a new curve point from form data")
     @PostMapping("/curvePoint/validate")
     public String validate(
@@ -62,6 +93,13 @@ public class CurveController {
         return "redirect:/curvePoint/list";
     }
 
+    /**
+     * Displays the form to update an existing curve point.
+     * 
+     * @param id    The ID of the curve point to update.
+     * @param model The model to add the existing curve point data to.
+     * @return The view name for the curve point update form.
+     */
     @Operation(summary = "Display curve point update form", description = "Returns a page with the form to update an existing curve point")
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(
@@ -71,6 +109,16 @@ public class CurveController {
         return "curvePoint/update";
     }
 
+    /**
+     * Updates an existing curve point.
+     * 
+     * @param id                The ID of the curve point to update.
+     * @param updatedCurvePoint The updated CurvePointDTO.
+     * @param result            The result of validating the updated curve point.
+     * @param model             The model to pass attributes to the view.
+     * @return A redirect to the curve point list page if successful, or the form
+     *         page if validation fails.
+     */
     @Operation(summary = "Update an existing curve point", description = "Updates a curve point with the provided form data")
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(
@@ -86,6 +134,13 @@ public class CurveController {
         return "redirect:/curvePoint/list";
     }
 
+    /**
+     * Deletes a curve point by its ID.
+     * 
+     * @param id    The ID of the curve point to delete.
+     * @param model The model to pass attributes to the view.
+     * @return A redirect to the curve point list page after deletion.
+     */
     @Operation(summary = "Delete a curve point", description = "Deletes a curve point by its ID")
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(

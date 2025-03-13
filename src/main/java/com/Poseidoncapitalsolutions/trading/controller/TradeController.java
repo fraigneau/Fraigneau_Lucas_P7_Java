@@ -20,8 +20,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
 
+/**
+ * Controller responsible for handling operations related to Trades.
+ * Provides endpoints for viewing, adding, updating, and deleting trades.
+ */
 @Controller
 @Tag(name = "Trade Controller", description = "API for trade management")
 public class TradeController {
@@ -29,11 +34,23 @@ public class TradeController {
     private TradeService tradeService;
     private TradeMapper tradeMapper;
 
+    /**
+     * Constructs a TradeController with the given service and mapper.
+     * 
+     * @param tradeService The service to interact with Trade data.
+     * @param tradeMapper  The mapper to convert Trade entities to DTOs.
+     */
     public TradeController(TradeService tradeService, TradeMapper tradeMapper) {
         this.tradeService = tradeService;
         this.tradeMapper = tradeMapper;
     }
 
+    /**
+     * Displays a list of all trades.
+     * 
+     * @param model The model to add the trades to.
+     * @return The view name for the trades page.
+     */
     @Operation(summary = "Get all trades", description = "Returns a page with the list of all trades")
     @GetMapping("/trade/list")
     public String home(Model model) {
@@ -42,6 +59,12 @@ public class TradeController {
         return "trade/list";
     }
 
+    /**
+     * Displays the form to add a new trade.
+     * 
+     * @param model The model to add a new empty TradeDTO to.
+     * @return The view name for the trade add form.
+     */
     @Operation(summary = "Display trade add form", description = "Returns a page with the form to add a new trade")
     @GetMapping("/trade/add")
     public String addUser(Model model) {
@@ -49,6 +72,15 @@ public class TradeController {
         return "trade/add";
     }
 
+    /**
+     * Validates and adds a new trade.
+     * 
+     * @param trade  The new TradeDTO to be added.
+     * @param result The result of validating the trade.
+     * @param model  The model to pass attributes to the view.
+     * @return A redirect to the trade list page if successful, or the form page if
+     *         validation fails.
+     */
     @Operation(summary = "Validate and add a new trade", description = "Adds a new trade from form data")
     @PostMapping("/trade/validate")
     public String validate(
@@ -64,6 +96,13 @@ public class TradeController {
         return "redirect:/trade/list";
     }
 
+    /**
+     * Displays the form to update an existing trade.
+     * 
+     * @param id    The ID of the trade to update.
+     * @param model The model to add the existing trade data to.
+     * @return The view name for the trade update form.
+     */
     @Operation(summary = "Display trade update form", description = "Returns a page with the form to update an existing trade")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully displayed update form"),
@@ -77,6 +116,16 @@ public class TradeController {
         return "trade/update";
     }
 
+    /**
+     * Updates an existing trade.
+     * 
+     * @param id     The ID of the trade to update.
+     * @param trade  The updated TradeDTO.
+     * @param result The result of validating the updated trade.
+     * @param model  The model to pass attributes to the view.
+     * @return A redirect to the trade list page if successful, or the form page if
+     *         validation fails.
+     */
     @Operation(summary = "Update an existing trade", description = "Updates a trade with the provided form data")
     @PostMapping("/trade/update/{id}")
     public String updateTrade(
@@ -93,6 +142,13 @@ public class TradeController {
         return "redirect:/trade/list";
     }
 
+    /**
+     * Deletes a trade by its ID.
+     * 
+     * @param id    The ID of the trade to delete.
+     * @param model The model to pass attributes to the view.
+     * @return A redirect to the trade list page after deletion.
+     */
     @Operation(summary = "Delete a trade", description = "Deletes a trade by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "302", description = "Trade successfully deleted, redirecting to list"),

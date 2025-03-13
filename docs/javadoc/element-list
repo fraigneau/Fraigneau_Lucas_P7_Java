@@ -1,0 +1,9 @@
+com.poseidoncapitalsolutions.trading
+com.poseidoncapitalsolutions.trading.config
+com.poseidoncapitalsolutions.trading.controller
+com.poseidoncapitalsolutions.trading.dto
+com.poseidoncapitalsolutions.trading.exception
+com.poseidoncapitalsolutions.trading.mapper
+com.poseidoncapitalsolutions.trading.model
+com.poseidoncapitalsolutions.trading.repository
+com.poseidoncapitalsolutions.trading.service

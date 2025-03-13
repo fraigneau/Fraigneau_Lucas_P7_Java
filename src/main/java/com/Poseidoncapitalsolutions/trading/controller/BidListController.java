@@ -20,6 +20,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+/**
+ * Controller responsible for handling operations related to BidLists.
+ * Provides endpoints for viewing, adding, updating, and deleting bid lists.
+ */
 @Controller
 @Tag(name = "Bid List Controller", description = "API for bid list management")
 public class BidListController {
@@ -27,11 +31,23 @@ public class BidListController {
     private BidListService bidListService;
     private BidListMapper bidListMapper;
 
+    /**
+     * Constructs a BidListController with the given service and mapper.
+     * 
+     * @param bidListService The service to interact with BidList data.
+     * @param bidListMapper  The mapper to convert BidList entities to DTOs.
+     */
     public BidListController(BidListService bidListService, BidListMapper bidListMapper) {
         this.bidListService = bidListService;
         this.bidListMapper = bidListMapper;
     }
 
+    /**
+     * Displays a list of all bid lists.
+     * 
+     * @param model The model to add the bid lists to.
+     * @return The view name for the bid list page.
+     */
     @Operation(summary = "Get all bid lists", description = "Returns a page with the list of all bid lists")
     @GetMapping("/bidList/list")
     public String home(Model model) {
@@ -40,6 +56,12 @@ public class BidListController {
         return "bidList/list";
     }
 
+    /**
+     * Displays the form to add a new bid list.
+     * 
+     * @param model The model to add a new empty BidListDTO to.
+     * @return The view name for the bid list add form.
+     */
     @Operation(summary = "Display bid list add form", description = "Returns a page with the form to add a new bid list")
     @GetMapping("/bidList/add")
     public String addBidForm(Model model) {
@@ -47,6 +69,15 @@ public class BidListController {
         return "bidList/add";
     }
 
+    /**
+     * Validates and adds a new bid list.
+     * 
+     * @param bid    The new BidListDTO to be added.
+     * @param result The result of validating the bid list.
+     * @param model  The model to pass attributes to the view.
+     * @return A redirect to the bid list page if successful, or the form page if
+     *         validation fails.
+     */
     @Operation(summary = "Validate and add a new bid list", description = "Adds a new bid list from form data")
     @PostMapping("/bidList/validate")
     public String validate(
@@ -62,6 +93,13 @@ public class BidListController {
         return "redirect:/bidList/list";
     }
 
+    /**
+     * Displays the form to update an existing bid list.
+     * 
+     * @param id    The ID of the bid list to update.
+     * @param model The model to add the existing bid list data to.
+     * @return The view name for the bid list update form.
+     */
     @Operation(summary = "Display bid list update form", description = "Returns a page with the form to update an existing bid list")
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(
@@ -71,6 +109,16 @@ public class BidListController {
         return "bidList/update";
     }
 
+    /**
+     * Updates an existing bid list.
+     * 
+     * @param id             The ID of the bid list to update.
+     * @param updatedBidList The updated BidListDTO.
+     * @param result         The result of validating the updated bid list.
+     * @param model          The model to pass attributes to the view.
+     * @return A redirect to the bid list page if successful, or the form page if
+     *         validation fails.
+     */
     @Operation(summary = "Update an existing bid list", description = "Updates a bid list with the provided form data")
     @PostMapping("/bidList/update/{id}")
     public String updateBid(
@@ -86,6 +134,13 @@ public class BidListController {
         return "redirect:/bidList/list";
     }
 
+    /**
+     * Deletes a bid list by its ID.
+     * 
+     * @param id    The ID of the bid list to delete.
+     * @param model The model to pass attributes to the view.
+     * @return A redirect to the bid list page after deletion.
+     */
     @Operation(summary = "Delete a bid list", description = "Deletes a bid list by its ID")
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(

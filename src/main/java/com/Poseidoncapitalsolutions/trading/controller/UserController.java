@@ -17,6 +17,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+/**
+ * Controller responsible for handling user-related operations in the system.
+ * Provides endpoints for viewing, adding, updating, and deleting users.
+ */
 @Controller
 @Tag(name = "User Management", description = "API for managing users in the system")
 public class UserController {
@@ -24,11 +28,23 @@ public class UserController {
     private UserService userService;
     private UserMapper userMapper;
 
+    /**
+     * Constructs a UserController with the given service and mapper.
+     * 
+     * @param userService The service to interact with User data.
+     * @param userMapper  The mapper to convert User entities to DTOs.
+     */
     public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
     }
 
+    /**
+     * Displays a list of all users in the system.
+     * 
+     * @param model The model to add the list of users to.
+     * @return The view name for the users list page.
+     */
     @Operation(summary = "Get all users", description = "Returns a list of all users in the system")
     @GetMapping("/user/list")
     public String home(Model model) {
@@ -36,6 +52,12 @@ public class UserController {
         return "user/list";
     }
 
+    /**
+     * Displays the form for adding a new user.
+     * 
+     * @param model The model to add a new empty UserDTO to.
+     * @return The view name for the add user form.
+     */
     @Operation(summary = "Show add user form", description = "Displays form for adding a new user")
     @GetMapping("/user/add")
     public String addUser(Model model) {
@@ -43,6 +65,15 @@ public class UserController {
         return "user/add";
     }
 
+    /**
+     * Validates and creates a new user with the provided details.
+     * 
+     * @param user   The new UserDTO to be created.
+     * @param result The result of validating the user input.
+     * @param model  The model to pass attributes to the view.
+     * @return A redirect to the user list page if the user is successfully created,
+     *         or the form page if validation fails.
+     */
     @Operation(summary = "Create new user", description = "Creates a new user with the provided details")
     @PostMapping("/user/validate")
     public String validate(
@@ -58,6 +89,13 @@ public class UserController {
         return "redirect:/user/list";
     }
 
+    /**
+     * Displays the form to update an existing user's details.
+     * 
+     * @param id    The ID of the user to be updated.
+     * @param model The model to add the current user data to.
+     * @return The view name for the update user form.
+     */
     @Operation(summary = "Show update user form", description = "Displays form for updating an existing user")
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(
@@ -67,6 +105,16 @@ public class UserController {
         return "user/update";
     }
 
+    /**
+     * Validates and updates an existing user with the provided details.
+     * 
+     * @param id     The ID of the user to be updated.
+     * @param user   The updated UserDTO with new details.
+     * @param result The result of validating the updated user input.
+     * @param model  The model to pass attributes to the view.
+     * @return A redirect to the user list page if the user is successfully updated,
+     *         or the form page if validation fails.
+     */
     @Operation(summary = "Update existing user", description = "Updates an existing user with the provided details")
     @PostMapping("/user/update/{id}")
     public String updateUser(
@@ -83,6 +131,13 @@ public class UserController {
         return "redirect:/user/list";
     }
 
+    /**
+     * Deletes a user from the system by their ID.
+     * 
+     * @param id    The ID of the user to be deleted.
+     * @param model The model to pass attributes to the view.
+     * @return A redirect to the user list page after the user is deleted.
+     */
     @Operation(summary = "Delete user", description = "Deletes a user from the system")
     @GetMapping("/user/delete/{id}")
     public String deleteUser(
