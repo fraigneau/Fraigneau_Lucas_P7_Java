@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.poseidoncapitalsolutions.trading.dto.BidListDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
 import com.poseidoncapitalsolutions.trading.mapper.BidListMapper;
 import com.poseidoncapitalsolutions.trading.model.BidList;
 import com.poseidoncapitalsolutions.trading.repository.BidListRepository;
@@ -28,7 +29,8 @@ public class BidListService implements GenericService<BidList> {
 
     @Override
     public BidList findById(int id) {
-        return bidListRepository.findById(id).get();
+        return bidListRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("BidList with id " + id + " not found"));
     }
 
     @Override

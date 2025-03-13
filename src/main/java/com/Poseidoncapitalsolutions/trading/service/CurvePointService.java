@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.poseidoncapitalsolutions.trading.dto.CurvePointDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
 import com.poseidoncapitalsolutions.trading.mapper.CurvepointMapper;
 import com.poseidoncapitalsolutions.trading.model.CurvePoint;
 import com.poseidoncapitalsolutions.trading.repository.CurvePointRepository;
@@ -28,7 +29,8 @@ public class CurvePointService implements GenericService<CurvePoint> {
 
     @Override
     public CurvePoint findById(int id) {
-        return curvePointRepository.findById(id).get();
+        return curvePointRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("CurvePoint with id " + id + " not found"));
     }
 
     @Override

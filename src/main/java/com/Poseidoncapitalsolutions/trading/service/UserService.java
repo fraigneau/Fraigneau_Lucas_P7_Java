@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.poseidoncapitalsolutions.trading.dto.UserDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
 import com.poseidoncapitalsolutions.trading.mapper.UserMapper;
 import com.poseidoncapitalsolutions.trading.model.User;
 import com.poseidoncapitalsolutions.trading.repository.UserRepository;
@@ -30,7 +31,8 @@ public class UserService implements GenericService<User> {
 
     @Override
     public User findById(int id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
     }
 
     @Override

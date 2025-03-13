@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.poseidoncapitalsolutions.trading.dto.RatingDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
 import com.poseidoncapitalsolutions.trading.mapper.RatingMapper;
 import com.poseidoncapitalsolutions.trading.model.Rating;
 import com.poseidoncapitalsolutions.trading.repository.RatingRepository;
@@ -27,7 +28,8 @@ public class RatingService implements GenericService<Rating> {
 
     @Override
     public Rating findById(int id) {
-        return ratingRepository.findById(id).get();
+        return ratingRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Rating with id " + id + " not found"));
     }
 
     @Override

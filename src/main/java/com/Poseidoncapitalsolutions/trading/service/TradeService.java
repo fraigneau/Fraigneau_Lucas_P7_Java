@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.poseidoncapitalsolutions.trading.dto.TradeDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
 import com.poseidoncapitalsolutions.trading.mapper.TradeMapper;
 import com.poseidoncapitalsolutions.trading.model.Trade;
 import com.poseidoncapitalsolutions.trading.repository.TradeRepository;
@@ -28,7 +29,8 @@ public class TradeService implements GenericService<Trade> {
 
     @Override
     public Trade findById(int id) {
-        return tradeRepository.findById(id).get();
+        return tradeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Trade with id " + id + " not found"));
     }
 
     @Override

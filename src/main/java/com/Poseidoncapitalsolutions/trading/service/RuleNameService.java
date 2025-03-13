@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.poseidoncapitalsolutions.trading.dto.RuleNameDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
 import com.poseidoncapitalsolutions.trading.mapper.RuleNameMapper;
 import com.poseidoncapitalsolutions.trading.model.RuleName;
 import com.poseidoncapitalsolutions.trading.repository.RuleNameRepository;
@@ -27,7 +28,8 @@ public class RuleNameService implements GenericService<RuleName> {
 
     @Override
     public RuleName findById(int id) {
-        return ruleNameRepository.findById(id).get();
+        return ruleNameRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("RuleName with id " + id + " not found"));
     }
 
     @Override
