@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trading</a> &gt; <a href="index.source.html" class="el_package">com.poseidoncapitalsolutions.trading.controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package com.poseidoncapitalsolutions.trading.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.poseidoncapitalsolutions.trading.dto.UserDTO;
+import com.poseidoncapitalsolutions.trading.mapper.UserMapper;
+import com.poseidoncapitalsolutions.trading.service.UserService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
+@Controller
+@Tag(name = &quot;User Management&quot;, description = &quot;API for managing users in the system&quot;)
+public class UserController {
+
+    private UserService userService;
+    private UserMapper userMapper;
+
+<span class="fc" id="L27">    public UserController(UserService userService, UserMapper userMapper) {</span>
+<span class="fc" id="L28">        this.userService = userService;</span>
+<span class="fc" id="L29">        this.userMapper = userMapper;</span>
+<span class="fc" id="L30">    }</span>
+
+    @Operation(summary = &quot;Get all users&quot;, description = &quot;Returns a list of all users in the system&quot;)
+    @GetMapping(&quot;/user/list&quot;)
+    public String home(Model model) {
+<span class="fc" id="L35">        model.addAttribute(&quot;users&quot;, userService.findAll());</span>
+<span class="fc" id="L36">        return &quot;user/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Show add user form&quot;, description = &quot;Displays form for adding a new user&quot;)
+    @GetMapping(&quot;/user/add&quot;)
+    public String addUser(Model model) {
+<span class="fc" id="L42">        model.addAttribute(&quot;newUser&quot;, new UserDTO());</span>
+<span class="fc" id="L43">        return &quot;user/add&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Create new user&quot;, description = &quot;Creates a new user with the provided details&quot;)
+    @PostMapping(&quot;/user/validate&quot;)
+    public String validate(
+            @Parameter(description = &quot;User data to be created&quot;, required = true) @ModelAttribute(&quot;newUser&quot;) @Valid UserDTO user,
+            BindingResult result,
+            Model model) {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (result.hasErrors()) {</span>
+<span class="fc" id="L53">            model.addAttribute(&quot;newUser&quot;, user);</span>
+<span class="fc" id="L54">            return &quot;user/add&quot;;</span>
+        }
+
+<span class="fc" id="L57">        userService.save(userMapper.toEntity(user));</span>
+<span class="fc" id="L58">        return &quot;redirect:/user/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Show update user form&quot;, description = &quot;Displays form for updating an existing user&quot;)
+    @GetMapping(&quot;/user/update/{id}&quot;)
+    public String showUpdateForm(
+            @Parameter(description = &quot;ID of the user to be updated&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            Model model) {
+<span class="fc" id="L66">        model.addAttribute(&quot;updatedUser&quot;, userMapper.toDto(userService.findById(id)));</span>
+<span class="fc" id="L67">        return &quot;user/update&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Update existing user&quot;, description = &quot;Updates an existing user with the provided details&quot;)
+    @PostMapping(&quot;/user/update/{id}&quot;)
+    public String updateUser(
+            @Parameter(description = &quot;ID of the user to be updated&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            @Parameter(description = &quot;Updated user data&quot;, required = true) @ModelAttribute(&quot;updatedUser&quot;) @Valid UserDTO user,
+            BindingResult result,
+            Model model) {
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (result.hasErrors()) {</span>
+<span class="nc" id="L78">            model.addAttribute(&quot;updatedUser&quot;, user);</span>
+<span class="nc" id="L79">            return &quot;user/update&quot;;</span>
+        }
+
+<span class="fc" id="L82">        userService.update(user);</span>
+<span class="fc" id="L83">        return &quot;redirect:/user/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Delete user&quot;, description = &quot;Deletes a user from the system&quot;)
+    @GetMapping(&quot;/user/delete/{id}&quot;)
+    public String deleteUser(
+            @Parameter(description = &quot;ID of the user to be deleted&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            Model model) {
+<span class="fc" id="L91">        userService.delete(userService.findById(id));</span>
+<span class="fc" id="L92">        return &quot;redirect:/user/list&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

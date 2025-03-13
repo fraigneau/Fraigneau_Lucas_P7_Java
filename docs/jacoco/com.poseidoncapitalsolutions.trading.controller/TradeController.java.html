@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TradeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trading</a> &gt; <a href="index.source.html" class="el_package">com.poseidoncapitalsolutions.trading.controller</a> &gt; <span class="el_source">TradeController.java</span></div><h1>TradeController.java</h1><pre class="source lang-java linenums">package com.poseidoncapitalsolutions.trading.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.poseidoncapitalsolutions.trading.dto.TradeDTO;
+import com.poseidoncapitalsolutions.trading.mapper.TradeMapper;
+import com.poseidoncapitalsolutions.trading.service.TradeService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
+@Controller
+@Tag(name = &quot;Trade Controller&quot;, description = &quot;API for trade management&quot;)
+public class TradeController {
+
+    private TradeService tradeService;
+    private TradeMapper tradeMapper;
+
+<span class="fc" id="L32">    public TradeController(TradeService tradeService, TradeMapper tradeMapper) {</span>
+<span class="fc" id="L33">        this.tradeService = tradeService;</span>
+<span class="fc" id="L34">        this.tradeMapper = tradeMapper;</span>
+<span class="fc" id="L35">    }</span>
+
+    @Operation(summary = &quot;Get all trades&quot;, description = &quot;Returns a page with the list of all trades&quot;)
+    @GetMapping(&quot;/trade/list&quot;)
+    public String home(Model model) {
+<span class="fc" id="L40">        List&lt;TradeDTO&gt; lists = tradeService.getListResponseDTO(tradeService.findAll());</span>
+<span class="fc" id="L41">        model.addAttribute(&quot;trades&quot;, lists);</span>
+<span class="fc" id="L42">        return &quot;trade/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Display trade add form&quot;, description = &quot;Returns a page with the form to add a new trade&quot;)
+    @GetMapping(&quot;/trade/add&quot;)
+    public String addUser(Model model) {
+<span class="fc" id="L48">        model.addAttribute(&quot;newTrade&quot;, new TradeDTO());</span>
+<span class="fc" id="L49">        return &quot;trade/add&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Validate and add a new trade&quot;, description = &quot;Adds a new trade from form data&quot;)
+    @PostMapping(&quot;/trade/validate&quot;)
+    public String validate(
+            @Parameter(description = &quot;New trade data to add&quot;, required = true, schema = @Schema(implementation = TradeDTO.class)) @ModelAttribute(&quot;newTrade&quot;) @Valid TradeDTO trade,
+            BindingResult result,
+            Model model) {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (result.hasErrors()) {</span>
+<span class="fc" id="L59">            model.addAttribute(&quot;newTrade&quot;, trade);</span>
+<span class="fc" id="L60">            return &quot;trade/add&quot;;</span>
+        }
+
+<span class="fc" id="L63">        tradeService.add(tradeMapper.toEntity(trade));</span>
+<span class="fc" id="L64">        return &quot;redirect:/trade/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Display trade update form&quot;, description = &quot;Returns a page with the form to update an existing trade&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully displayed update form&quot;),
+            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Trade not found&quot;)
+    })
+    @GetMapping(&quot;/trade/update/{id}&quot;)
+    public String showUpdateForm(
+            @Parameter(description = &quot;ID of the trade to update&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            Model model) {
+<span class="fc" id="L76">        model.addAttribute(&quot;updatedTrade&quot;, tradeMapper.toDto(tradeService.findById(id)));</span>
+<span class="fc" id="L77">        return &quot;trade/update&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Update an existing trade&quot;, description = &quot;Updates a trade with the provided form data&quot;)
+    @PostMapping(&quot;/trade/update/{id}&quot;)
+    public String updateTrade(
+            @Parameter(description = &quot;ID of the trade to update&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            @Parameter(description = &quot;Updated trade data&quot;, required = true, schema = @Schema(implementation = TradeDTO.class)) @ModelAttribute(&quot;updatedTrade&quot;) @Valid TradeDTO trade,
+            BindingResult result,
+            Model model) {
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (result.hasErrors()) {</span>
+<span class="nc" id="L88">            model.addAttribute(&quot;updatedTrade&quot;, trade);</span>
+<span class="nc" id="L89">            return &quot;trade/update&quot;;</span>
+        }
+
+<span class="fc" id="L92">        tradeService.update(trade);</span>
+<span class="fc" id="L93">        return &quot;redirect:/trade/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Delete a trade&quot;, description = &quot;Deletes a trade by its ID&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = &quot;302&quot;, description = &quot;Trade successfully deleted, redirecting to list&quot;),
+            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Trade not found&quot;)
+    })
+    @GetMapping(&quot;/trade/delete/{id}&quot;)
+    public String deleteTrade(
+            @Parameter(description = &quot;ID of the trade to delete&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            Model model) {
+<span class="fc" id="L105">        tradeService.delete(tradeService.findById(id));</span>
+<span class="fc" id="L106">        return &quot;redirect:/trade/list&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

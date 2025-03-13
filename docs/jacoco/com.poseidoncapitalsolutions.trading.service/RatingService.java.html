@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RatingService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trading</a> &gt; <a href="index.source.html" class="el_package">com.poseidoncapitalsolutions.trading.service</a> &gt; <span class="el_source">RatingService.java</span></div><h1>RatingService.java</h1><pre class="source lang-java linenums">package com.poseidoncapitalsolutions.trading.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.poseidoncapitalsolutions.trading.dto.RatingDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
+import com.poseidoncapitalsolutions.trading.mapper.RatingMapper;
+import com.poseidoncapitalsolutions.trading.model.Rating;
+import com.poseidoncapitalsolutions.trading.repository.RatingRepository;
+
+@Service
+public class RatingService implements GenericService&lt;Rating&gt; {
+
+    private RatingRepository ratingRepository;
+    private RatingMapper ratingMapper;
+
+<span class="fc" id="L19">    public RatingService(RatingRepository ratingRepository, RatingMapper ratingMapper) {</span>
+<span class="fc" id="L20">        this.ratingRepository = ratingRepository;</span>
+<span class="fc" id="L21">        this.ratingMapper = ratingMapper;</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public List&lt;Rating&gt; findAll() {
+<span class="fc" id="L26">        return ratingRepository.findAll();</span>
+    }
+
+    @Override
+    public Rating findById(int id) {
+<span class="fc" id="L31">        return ratingRepository.findById(id)</span>
+<span class="fc" id="L32">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Rating with id &quot; + id + &quot; not found&quot;));</span>
+    }
+
+    @Override
+    public Rating save(Rating Object) {
+<span class="fc" id="L37">        return ratingRepository.save(Object);</span>
+    }
+
+    @Override
+    public void delete(Rating Object) {
+<span class="fc" id="L42">        ratingRepository.delete(Object);</span>
+<span class="fc" id="L43">    }</span>
+
+    public List&lt;RatingDTO&gt; getListResponseDTO(List&lt;Rating&gt; ratings) {
+<span class="fc" id="L46">        return ratings.stream()</span>
+<span class="fc" id="L47">                .map(ratingMapper::toDto)</span>
+<span class="fc" id="L48">                .toList();</span>
+    }
+
+    public void update(RatingDTO ratingDTO) {
+<span class="fc" id="L52">        ratingRepository.save(merge(ratingDTO));</span>
+<span class="fc" id="L53">    }</span>
+
+    private Rating merge(RatingDTO ratingDTO) {
+<span class="fc" id="L56">        Rating rating = findById(ratingDTO.getId());</span>
+<span class="fc" id="L57">        rating.setFitchRating(ratingDTO.getFitchRating());</span>
+<span class="fc" id="L58">        rating.setSandPRating(ratingDTO.getSandPRating());</span>
+<span class="fc" id="L59">        rating.setMoodysRating(ratingDTO.getMoodysRating());</span>
+<span class="fc" id="L60">        rating.setOrderNumber(ratingDTO.getOrderNumber());</span>
+<span class="fc" id="L61">        return rating;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

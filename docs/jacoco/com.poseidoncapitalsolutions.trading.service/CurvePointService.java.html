@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CurvePointService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trading</a> &gt; <a href="index.source.html" class="el_package">com.poseidoncapitalsolutions.trading.service</a> &gt; <span class="el_source">CurvePointService.java</span></div><h1>CurvePointService.java</h1><pre class="source lang-java linenums">package com.poseidoncapitalsolutions.trading.service;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.poseidoncapitalsolutions.trading.dto.CurvePointDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
+import com.poseidoncapitalsolutions.trading.mapper.CurvepointMapper;
+import com.poseidoncapitalsolutions.trading.model.CurvePoint;
+import com.poseidoncapitalsolutions.trading.repository.CurvePointRepository;
+
+@Service
+public class CurvePointService implements GenericService&lt;CurvePoint&gt; {
+
+    private CurvePointRepository curvePointRepository;
+    private CurvepointMapper curvepointMapper;
+
+<span class="fc" id="L20">    public CurvePointService(CurvePointRepository curvePointRepository, CurvepointMapper curvepointMapper) {</span>
+<span class="fc" id="L21">        this.curvePointRepository = curvePointRepository;</span>
+<span class="fc" id="L22">        this.curvepointMapper = curvepointMapper;</span>
+<span class="fc" id="L23">    }</span>
+
+    @Override
+    public List&lt;CurvePoint&gt; findAll() {
+<span class="fc" id="L27">        return curvePointRepository.findAll();</span>
+    }
+
+    @Override
+    public CurvePoint findById(int id) {
+<span class="fc" id="L32">        return curvePointRepository.findById(id)</span>
+<span class="fc" id="L33">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;CurvePoint with id &quot; + id + &quot; not found&quot;));</span>
+    }
+
+    @Override
+    public CurvePoint save(CurvePoint Object) {
+<span class="fc" id="L38">        return curvePointRepository.save(Object);</span>
+    }
+
+    @Override
+    public void delete(CurvePoint Object) {
+<span class="fc" id="L43">        curvePointRepository.delete(Object);</span>
+<span class="fc" id="L44">    }</span>
+
+    public List&lt;CurvePointDTO&gt; getListResponseDTO(List&lt;CurvePoint&gt; curvePoints) {
+<span class="fc" id="L47">        return curvePoints.stream()</span>
+<span class="fc" id="L48">                .map(curvepointMapper::toDto)</span>
+<span class="fc" id="L49">                .toList();</span>
+    }
+
+    public void update(CurvePointDTO curvePointDTO) {
+<span class="fc" id="L53">        curvePointRepository.save(merge(curvePointDTO));</span>
+<span class="fc" id="L54">    }</span>
+
+    private CurvePoint merge(CurvePointDTO curvePointDTO) {
+<span class="fc" id="L57">        CurvePoint curve = findById(curvePointDTO.getId());</span>
+<span class="fc" id="L58">        curve.setTerm(curvePointDTO.getTerm());</span>
+<span class="fc" id="L59">        curve.setValue(curvePointDTO.getValue());</span>
+<span class="fc" id="L60">        return curve;</span>
+    }
+
+    public void add(CurvePoint curvePoint) {
+<span class="fc" id="L64">        curvePoint.setCreationDate(new Timestamp(System.currentTimeMillis()));</span>
+<span class="fc" id="L65">        curvePointRepository.save(curvePoint);</span>
+<span class="fc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

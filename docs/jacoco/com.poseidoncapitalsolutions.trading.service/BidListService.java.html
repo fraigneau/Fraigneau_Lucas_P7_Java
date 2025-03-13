@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BidListService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trading</a> &gt; <a href="index.source.html" class="el_package">com.poseidoncapitalsolutions.trading.service</a> &gt; <span class="el_source">BidListService.java</span></div><h1>BidListService.java</h1><pre class="source lang-java linenums">package com.poseidoncapitalsolutions.trading.service;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.poseidoncapitalsolutions.trading.dto.BidListDTO;
+import com.poseidoncapitalsolutions.trading.exception.ResourceNotFoundException;
+import com.poseidoncapitalsolutions.trading.mapper.BidListMapper;
+import com.poseidoncapitalsolutions.trading.model.BidList;
+import com.poseidoncapitalsolutions.trading.repository.BidListRepository;
+
+@Service
+public class BidListService implements GenericService&lt;BidList&gt; {
+
+    private BidListRepository bidListRepository;
+    private BidListMapper bidListMapper;
+
+<span class="fc" id="L20">    public BidListService(BidListRepository bidListRepository, BidListMapper bidListMapper) {</span>
+<span class="fc" id="L21">        this.bidListRepository = bidListRepository;</span>
+<span class="fc" id="L22">        this.bidListMapper = bidListMapper;</span>
+<span class="fc" id="L23">    }</span>
+
+    @Override
+    public List&lt;BidList&gt; findAll() {
+<span class="fc" id="L27">        return bidListRepository.findAll();</span>
+    }
+
+    @Override
+    public BidList findById(int id) {
+<span class="fc" id="L32">        return bidListRepository.findById(id)</span>
+<span class="fc" id="L33">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;BidList with id &quot; + id + &quot; not found&quot;));</span>
+    }
+
+    @Override
+    public BidList save(BidList Object) {
+<span class="fc" id="L38">        return bidListRepository.save(Object);</span>
+    }
+
+    @Override
+    public void delete(BidList Object) {
+<span class="fc" id="L43">        bidListRepository.delete(Object);</span>
+<span class="fc" id="L44">    }</span>
+
+    public List&lt;BidListDTO&gt; getListResponseDTO(List&lt;BidList&gt; bidLists) {
+<span class="fc" id="L47">        return bidLists.stream()</span>
+<span class="fc" id="L48">                .map(bidListMapper::toDto)</span>
+<span class="fc" id="L49">                .toList();</span>
+    }
+
+    public void update(BidListDTO bidListDTO) {
+<span class="fc" id="L53">        bidListRepository.save(merge(bidListDTO));</span>
+<span class="fc" id="L54">    }</span>
+
+    private BidList merge(BidListDTO bidListDTO) {
+<span class="fc" id="L57">        BidList bid = findById(bidListDTO.getId());</span>
+<span class="fc" id="L58">        bid.setAccount(bidListDTO.getAccount());</span>
+<span class="fc" id="L59">        bid.setType(bidListDTO.getType());</span>
+<span class="fc" id="L60">        bid.setBidQuantity(bidListDTO.getBidQuantity());</span>
+<span class="fc" id="L61">        bid.setRevisionDate(new Timestamp(System.currentTimeMillis()));</span>
+<span class="fc" id="L62">        return bid;</span>
+    }
+
+    public void add(BidList object) {
+<span class="fc" id="L66">        object.setCreationDate(new Timestamp(System.currentTimeMillis()));</span>
+<span class="fc" id="L67">        bidListRepository.save(object);</span>
+<span class="fc" id="L68">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
