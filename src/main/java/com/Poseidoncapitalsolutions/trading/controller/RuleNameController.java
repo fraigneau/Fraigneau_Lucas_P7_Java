@@ -24,6 +24,7 @@ import jakarta.validation.Valid;
 @Controller
 @Tag(name = "Rule Name Controller", description = "API for rule name management")
 public class RuleNameController {
+
     private RuleNameService ruleNameService;
     private RuleNameMapper ruleNameMapper;
 

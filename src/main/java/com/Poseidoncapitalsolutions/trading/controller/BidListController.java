@@ -2,7 +2,6 @@ package com.poseidoncapitalsolutions.trading.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +18,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import jakarta.validation.Valid;
 
 @Controller
@@ -29,10 +27,6 @@ public class BidListController {
     private BidListService bidListService;
     private BidListMapper bidListMapper;
 
-    public BidListController() {
-    }
-
-    @Autowired
     public BidListController(BidListService bidListService, BidListMapper bidListMapper) {
         this.bidListService = bidListService;
         this.bidListMapper = bidListMapper;
