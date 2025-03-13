@@ -8,9 +8,9 @@ Poseidon Capital Solutions Trading Platform is a robust web application for trad
 
 All project documentation is available in the `docs` directory of the GitHub repository and is deployed online:
 
-- [**JaCoCo Reports**](https://fraigneau.github.io/Fraigneau-Lucas-P7-java/jacoco/)
-- [**Surfire Reports**](https://fraigneau.github.io/Fraigneau-Lucas-P7-java/surefire/)
-- [**JavaDoc**](https://fraigneau.github.io/Fraigneau-Lucas-P7-java/javadoc/)
+- [**JaCoCo Reports**](https://fraigneau.github.io/Fraigneau_Lucas_P7_java/jacoco/)
+- [**Surfire Reports**](https://fraigneau.github.io/Fraigneau_Lucas_P7_java/surefire/)
+- [**JavaDoc**](https://fraigneau.github.io/Fraigneau_Lucas_P7_java/javadoc/)
 
 ## 🛠 Technologies Used
 
