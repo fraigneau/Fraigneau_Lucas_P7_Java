@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RatingController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trading</a> &gt; <a href="index.source.html" class="el_package">com.poseidoncapitalsolutions.trading.controller</a> &gt; <span class="el_source">RatingController.java</span></div><h1>RatingController.java</h1><pre class="source lang-java linenums">package com.poseidoncapitalsolutions.trading.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.poseidoncapitalsolutions.trading.dto.RatingDTO;
+import com.poseidoncapitalsolutions.trading.mapper.RatingMapper;
+import com.poseidoncapitalsolutions.trading.service.RatingService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import jakarta.validation.Valid;
+
+@Controller
+@Tag(name = &quot;Rating Controller&quot;, description = &quot;API for rating management&quot;)
+public class RatingController {
+
+    private RatingService ratingService;
+    private RatingMapper ratingMapper;
+
+<span class="fc" id="L31">    public RatingController(RatingService ratingService, RatingMapper ratingMapper) {</span>
+<span class="fc" id="L32">        this.ratingService = ratingService;</span>
+<span class="fc" id="L33">        this.ratingMapper = ratingMapper;</span>
+<span class="fc" id="L34">    }</span>
+
+    @Operation(summary = &quot;Get all ratings&quot;, description = &quot;Returns a page with the list of all ratings&quot;)
+    @GetMapping(&quot;/rating/list&quot;)
+    public String home(Model model) {
+<span class="fc" id="L39">        List&lt;RatingDTO&gt; lists = ratingService.getListResponseDTO(ratingService.findAll());</span>
+<span class="fc" id="L40">        model.addAttribute(&quot;ratings&quot;, lists);</span>
+<span class="fc" id="L41">        return &quot;rating/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Display rating add form&quot;, description = &quot;Returns a page with the form to add a new rating&quot;)
+    @GetMapping(&quot;/rating/add&quot;)
+    public String addRatingForm(Model model) {
+<span class="fc" id="L47">        model.addAttribute(&quot;newRating&quot;, new RatingDTO());</span>
+<span class="fc" id="L48">        return &quot;rating/add&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Validate and add a new rating&quot;, description = &quot;Adds a new rating from form data&quot;)
+    @PostMapping(&quot;/rating/validate&quot;)
+    public String validate(
+            @Parameter(description = &quot;New rating data to add&quot;, required = true, schema = @Schema(implementation = RatingDTO.class)) @ModelAttribute(&quot;newRating&quot;) @Valid RatingDTO rating,
+            BindingResult result,
+            Model model) {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (result.hasErrors()) {</span>
+<span class="fc" id="L58">            model.addAttribute(&quot;newRating&quot;, rating);</span>
+<span class="fc" id="L59">            return &quot;rating/add&quot;;</span>
+        }
+<span class="fc" id="L61">        ratingService.save(ratingMapper.toEntity(rating));</span>
+<span class="fc" id="L62">        return &quot;redirect:/rating/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Display rating update form&quot;, description = &quot;Returns a page with the form to update an existing rating&quot;)
+    @GetMapping(&quot;/rating/update/{id}&quot;)
+    public String showUpdateForm(
+            @Parameter(description = &quot;ID of the rating to update&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            Model model) {
+<span class="fc" id="L70">        model.addAttribute(&quot;updatedRating&quot;, ratingMapper.toDto(ratingService.findById(id)));</span>
+<span class="fc" id="L71">        return &quot;rating/update&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Update an existing rating&quot;, description = &quot;Updates a rating with the provided form data&quot;)
+    @PostMapping(&quot;/rating/update/{id}&quot;)
+    public String updateRating(
+            @Parameter(description = &quot;ID of the rating to update&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            @Parameter(description = &quot;Updated rating data&quot;, required = true, schema = @Schema(implementation = RatingDTO.class)) @ModelAttribute(&quot;updatedRating&quot;) @Valid RatingDTO rating,
+            BindingResult result,
+            Model model) {
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        if (result.hasErrors()) {</span>
+<span class="nc" id="L82">            model.addAttribute(&quot;updatedRating&quot;, rating);</span>
+<span class="nc" id="L83">            return &quot;rating/update&quot;;</span>
+        }
+<span class="fc" id="L85">        ratingService.update(rating);</span>
+<span class="fc" id="L86">        return &quot;redirect:/rating/list&quot;;</span>
+    }
+
+    @Operation(summary = &quot;Delete a rating&quot;, description = &quot;Deletes a rating by its ID&quot;)
+    @GetMapping(&quot;/rating/delete/{id}&quot;)
+    public String deleteRating(
+            @Parameter(description = &quot;ID of the rating to delete&quot;, required = true) @PathVariable(&quot;id&quot;) int id,
+            Model model) {
+<span class="fc" id="L94">        ratingService.delete(ratingService.findById(id));</span>
+<span class="fc" id="L95">        return &quot;redirect:/rating/list&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
